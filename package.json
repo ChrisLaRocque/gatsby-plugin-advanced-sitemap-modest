@@ -1,20 +1,57 @@
 {
   "name": "gatsby-plugin-advanced-sitemap-modest",
+  "description": "Identical to advanced-sitemap but without the ghost link at the top of the page",
   "version": "1.0.1",
-  "description": "Identical to the [gatsby-plugin-advanced-sitemap](https://www.gatsbyjs.com/plugins/gatsby-plugin-advanced-sitemap/) but includes the `hideAttribution` option that's been up as a (pull request)[https://github.com/TryGhost/gatsby-plugin-advanced-sitemap/pull/158] by (sonaltr)[https://github.com/sonaltr]",
-  "main": "index.js",
-  "devDependencies": {},
-  "scripts": {
-    "test": "yarn test"
-  },
+  "license": "MIT",
+  "author": "Ghost Foundation",
+  "homepage": "https://ghost.org/docs/jamstack/gatsby/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ChrisLaRocque/gatsby-plugin-advanced-sitemap-modest.git"
   },
-  "author": "Ghost",
-  "license": "MIT",
+  "engines": {
+    "node": ">= 12.19.0"
+  },
   "bugs": {
     "url": "https://github.com/ChrisLaRocque/gatsby-plugin-advanced-sitemap-modest/issues"
   },
-  "homepage": "https://github.com/ChrisLaRocque/gatsby-plugin-advanced-sitemap-modest#readme"
+  "main": "index.js",
+  "keywords": [
+    "gatsby",
+    "gatsby-plugin"
+  ],
+  "scripts": {
+    "lint": "eslint --ext .js -c .eslintrc.js --cache src/**",
+    "test": "jest .",
+    "build": "babel src --out-dir . --ignore **/__tests__",
+    "prepare": "cross-env NODE_ENV=production yarn build",
+    "watch": "babel -w src --out-dir . --ignore **/__tests__",
+    "ship": "STATUS=$(git status --porcelain); echo $STATUS; if [ -z \"$STATUS\" ]; then yarn publish && git push --follow-tags; fi"
+  },
+  "peerDependencies": {
+    "gatsby": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "7.14.3",
+    "@babel/core": "7.14.3",
+    "babel-eslint": "10.1.0",
+    "babel-jest": "26.6.3",
+    "babel-preset-gatsby-package": "1.5.0",
+    "cross-env": "7.0.3",
+    "eslint": "7.30.0",
+    "eslint-plugin-ghost": "2.5.0",
+    "eslint-plugin-jest": "24.3.6",
+    "eslint-plugin-react": "7.24.0",
+    "gatsby": "3.5.0",
+    "jest": "26.6.3",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  },
+  "dependencies": {
+    "@babel/runtime": "7.14.0",
+    "fs-extra": "10.0.0",
+    "lodash": "4.17.21",
+    "moment": "2.29.1",
+    "xml": "^1.0.1"
+  }
 }
