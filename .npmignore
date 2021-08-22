@@ -1,0 +1,9 @@
+# Build output
+!BaseSiteMapGenerator.js
+!IndexMapGenerator.js
+!SiteMapGenerator.js
+!SiteMapManager.js
+!defaults.js
+!gatsby-node.js
+!gatsby-ssr.js
+!utils.js
