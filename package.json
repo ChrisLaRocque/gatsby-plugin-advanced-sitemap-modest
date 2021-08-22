@@ -1,6 +1,6 @@
 {
   "name": "gatsby-plugin-advanced-sitemap-modest",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Identical to the [gatsby-plugin-advanced-sitemap](https://www.gatsbyjs.com/plugins/gatsby-plugin-advanced-sitemap/) but includes the `hideAttribution` option that's been up as a (pull request)[https://github.com/TryGhost/gatsby-plugin-advanced-sitemap/pull/158] by (sonaltr)[https://github.com/sonaltr]",
   "main": "index.js",
   "devDependencies": {},
