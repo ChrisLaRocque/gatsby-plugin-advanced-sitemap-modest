@@ -6,6 +6,7 @@ import defaultOptions from './defaults';
 import Manager from './SiteMapManager';
 
 import * as utils from './utils';
+import { runInNewContext } from 'vm';
 
 const PUBLICPATH = `./public`;
 const RESOURCESFILE = `/sitemap-:resource.xml`;
@@ -17,6 +18,11 @@ const DEFAULTQUERY = `{
         id
         slug: path
         url: path
+        context {
+            slug
+            node_locale
+            locale
+        }
       }
     }
   }
@@ -74,10 +80,14 @@ const serializeMarkdownNodes = (node) => {
 
     return node;
 };
+const compareLangs = (source, string) => {
+    let sourceItems = source.split('/');
+    let stringItems = string.split('/')
 
+}
 // Compare our node paths with the ones that Gatsby has generated and updated them
 // with the "real" used ones.
-const getNodePath = (node, allSitePage) => {
+const getNodePath = (node, allSitePage, supportedLangs) => {
     if (!node.path || node.path === `/`) {
         return node;
     }
@@ -86,6 +96,12 @@ const getNodePath = (node, allSitePage) => {
     for (let page of allSitePage.edges) {
         if (page?.node?.url && page.node.url.replace(/\/$/, ``).match(slugRegex)) {
             node.path = page.node.url;
+            node.alts = allSitePage.edges.filter((edge) => {
+                (node.context?.slug === edge.node.context?.slug) && (node.context?.locale !== edge.node.context?.locale);
+            }).map((edge) => {
+                let linkLang = { href: edge.node.url, hreflang: edge.node.context.locale }
+                return linkLang
+            })
             break;
         }
     }

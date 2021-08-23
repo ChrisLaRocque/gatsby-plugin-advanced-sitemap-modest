@@ -83,7 +83,8 @@ export default class BaseSiteMapGenerator {
     }
 
     createUrlNodeFromDatum(url, datum) {
-        let node, imgNode;
+        let node
+        let imgNode
 
         node = {
             url: [
