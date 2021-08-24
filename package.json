@@ -1,7 +1,7 @@
 {
   "name": "gatsby-plugin-advanced-sitemap-modest",
   "description": "Identical to advanced-sitemap but without the ghost link at the top of the page",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "license": "MIT",
   "author": "Ghost Foundation",
   "homepage": "https://ghost.org/docs/jamstack/gatsby/",
