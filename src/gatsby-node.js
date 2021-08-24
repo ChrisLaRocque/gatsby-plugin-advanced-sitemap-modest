@@ -80,14 +80,10 @@ const serializeMarkdownNodes = (node) => {
 
     return node;
 };
-const compareLangs = (source, string) => {
-    let sourceItems = source.split('/');
-    let stringItems = string.split('/')
 
-}
 // Compare our node paths with the ones that Gatsby has generated and updated them
 // with the "real" used ones.
-const getNodePath = (node, allSitePage, supportedLangs) => {
+const getNodePath = (node, allSitePage) => {
     if (!node.path || node.path === `/`) {
         return node;
     }

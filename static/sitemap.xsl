@@ -109,14 +109,14 @@
                                             <a href="{$itemURL}">
                                                 <xsl:value-of select="sitemap:loc"/>
                                             </a>
-                                            <xsl:if test="count(sitemap:alts) &lt; 0">
-                                                <xsl:for-each select="./*[@rel='alternate']">
+                                            <xsl:if test="0 &lt; count(sitemap:alts)">
+                                                <xsl:for-each select="sitemap:alts">
                                                     <tr>
                                                         <td>
-                                                        <xsl:value-of select="@href"/>
+                                                            <xsl:value-of select="href"/>
                                                         </td>
                                                         <td>
-                                                        <xsl:value-of select="@hreflang"/>
+                                                            <xsl:value-of select="hreflang"/>
                                                         </td>
                                                     </tr>
                                                 </xsl:for-each>

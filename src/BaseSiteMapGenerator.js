@@ -85,11 +85,15 @@ export default class BaseSiteMapGenerator {
     createUrlNodeFromDatum(url, datum) {
         let node
         let imgNode
-
+        // datum is the node
+        // datum.alts ? datum.alts.map(alt => {xhtmlLink: alt}) : null
         node = {
             url: [
-                {loc: url},
-                {lastmod: moment(this.getLastModifiedForDatum(datum), moment.ISO_8601).toISOString()}
+                { loc: url },
+                { lastmod: moment(this.getLastModifiedForDatum(datum), moment.ISO_8601).toISOString() },
+                datum.alts ? datum.alts.map((alt) => {
+                    return { 'xhtml:link': [{ _attr: { rel: `alternate`, hreflang: alt.hreflang, href: alt.href } }] }
+                }) : null,
             ]
         };
 
@@ -113,8 +117,8 @@ export default class BaseSiteMapGenerator {
 
         // Create the weird xml node syntax structure that is expected
         imageEl = [
-            {'image:loc': image},
-            {'image:caption': path.basename(image)}
+            { 'image:loc': image },
+            { 'image:caption': path.basename(image) }
         ];
 
         // Return the node to be added to the url xml node
