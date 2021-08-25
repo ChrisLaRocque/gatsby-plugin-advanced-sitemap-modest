@@ -8,7 +8,7 @@
     <xsl:template match="/">
         <html xmlns="http://www.w3.org/1999/xhtml">
             <head>
-                <title>XML Sitemap</title>
+                <title>Brightcove XML Sitemap</title>
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
                 <style type="text/css">
                     body {
@@ -45,8 +45,8 @@
                     }
 
                     #content {
-                        margin: 0 auto;
-                        padding: 2% 5%;
+                        margin: 0 0;
+                        padding: 2%;
                         max-width: 800px;
                     }
 
@@ -92,9 +92,10 @@
                         <table id="sitemap" cellpadding="3">
                             <thead>
                                 <tr>
-                                    <th width="70%">URL (<xsl:value-of select="count(sitemap:urlset/sitemap:url)"/> total)</th>
-                                    <th width="15%">Images</th>
-                                    <th title="Last Modification Time" width="15%">Last Modified</th>
+                                    <th width="40%">URL (<xsl:value-of select="count(sitemap:urlset/sitemap:url)"/> total)</th>
+                                    <th width="7%">Images</th>
+                                    <th title="Last Modification Time" width="10%">Last Modified</th>
+                                    <th title="Alternate Languages" width="43%">Alternate languages</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -109,24 +110,42 @@
                                             <a href="{$itemURL}">
                                                 <xsl:value-of select="sitemap:loc"/>
                                             </a>
-                                            <xsl:if test="0 &lt; count(sitemap:alts)">
-                                                <xsl:for-each select="sitemap:alts">
-                                                    <tr>
-                                                        <td>
-                                                            <xsl:value-of select="href"/>
-                                                        </td>
-                                                        <td>
-                                                            <xsl:value-of select="hreflang"/>
-                                                        </td>
-                                                    </tr>
-                                                </xsl:for-each>
-                                            </xsl:if>
                                         </td>
                                         <td>
                                             <xsl:value-of select="count(image:image)"/>
                                         </td>
                                         <td>
                                             <xsl:value-of select="concat(substring(sitemap:lastmod,0,11),concat(' ', substring(sitemap:lastmod,12,5)))"/>
+                                        </td>
+                                       
+                                        <td>
+                                            <xsl:if test="count(./*[@rel='alternate']) &gt; 0">
+                                                <table width="75%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="90%">Alternate language urls</th>
+                                                            <th width="10%">Lang</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <xsl:for-each select="./*[@rel='alternate']">
+                                                        <tr>
+                                                            <xsl:variable name="altUrl">
+                                                                <xsl:value-of select="@href"/>
+                                                            </xsl:variable>
+                                                            <td>
+                                                                <a href="${altUrl}">
+                                                                    <xsl:value-of select="@href"/>
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                <xsl:value-of select="@hreflang"/>
+                                                            </td>
+                                                        </tr>
+                                                        </xsl:for-each>
+                                                    </tbody>
+                                                </table>
+                                            </xsl:if>
                                         </td>
                                     </tr>
                                 </xsl:for-each>

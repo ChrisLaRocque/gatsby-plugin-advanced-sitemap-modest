@@ -25,6 +25,7 @@ export default class BaseSiteMapGenerator {
         const self = this;
         // Get a mapping of node to timestamp
         const timedNodes = _.map(this.nodeLookup, function (node, id) {
+            // console.log('node about to be xmld', node)
             return {
                 id: id,
                 // Using negative here to sort newest to oldest
@@ -85,18 +86,20 @@ export default class BaseSiteMapGenerator {
     createUrlNodeFromDatum(url, datum) {
         let node
         let imgNode
+        // console.log('datum', datum)
         // datum is the node
         // datum.alts ? datum.alts.map(alt => {xhtmlLink: alt}) : null
         node = {
             url: [
                 { loc: url },
                 { lastmod: moment(this.getLastModifiedForDatum(datum), moment.ISO_8601).toISOString() },
-                datum.alts ? datum.alts.map((alt) => {
-                    return { 'xhtml:link': [{ _attr: { rel: `alternate`, hreflang: alt.hreflang, href: alt.href } }] }
-                }) : null,
             ]
         };
-
+        if(datum.alts){
+            datum.alts.forEach(alt => {
+                node.url.push({ 'xhtml:link': [{ _attr: { rel: `alternate`, hreflang: (alt.context.locale || alt.context.node_locale).substr(0,2), href: `https://brightcove.com${alt.url}` } }] })
+            })
+        }
         imgNode = this.createImageNodeFromDatum(datum);
 
         if (imgNode) {
