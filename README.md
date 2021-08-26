@@ -12,7 +12,9 @@ _NOTE: This plugin only generates output in `production` mode! To test, run: `ga
 
 ## Install
 
-`npm install --save gatsby-plugin-contentful-sitemap-modest`
+Installing 1.0.1 will give you the hide attribution feature + match the rest of the advanced sitemap features. Everything after that is wild nonsense to make the brightcove.com sitemap work.
+
+`npm install --save gatsby-plugin-advanced-sitemap-modest@1.0.1`
 
 ## How to Use
 

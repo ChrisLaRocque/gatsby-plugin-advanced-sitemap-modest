@@ -34,8 +34,8 @@ const DEFAULTQUERY = `{
 }`;
 const DEFAULTMAPPING = {
     allSitePage: {
-        sitemap: `pages`
-    }
+        sitemap: `pages`,
+    },
 };
 let siteURL;
 
@@ -106,20 +106,7 @@ const getNodePath = (node, allSitePage) => {
                         filteredPages.push(allPages[page].node)
                     }
             }
-            // console.log('page v node')
-            // console.log('page', allPages[page])
-            // console.log('node', node)
         }
-        // console.log(typeof filteredPages)
-        // filteredPages.map(page => console.log('page', page))
-        // if(filteredPages.length > 0){
-        //     console.log('filteredPages', filteredPages)
-        // }
-        // console.log('filteredPages', filteredPages)
-        // return filteredPages.filter((edge) => {
-        //     edge.node.context.slug == node.context.slug
-        // })
-        // console.log(`returning filteredpages for ${node.context.slug}`, filteredPages)
         return filteredPages
         
     }
