@@ -89,10 +89,13 @@ export default class BaseSiteMapGenerator {
         // console.log('datum', datum)
         // datum is the node
         // datum.alts ? datum.alts.map(alt => {xhtmlLink: alt}) : null
+        console.log(datum)
         node = {
             url: [
                 { loc: url },
                 { lastmod: moment(this.getLastModifiedForDatum(datum), moment.ISO_8601).toISOString() },
+                { changefreq: datum.changefreq },
+                { priority: datum.priority }
             ]
         };
         if(datum.alts){

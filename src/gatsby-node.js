@@ -22,6 +22,7 @@ const DEFAULTQUERY = `{
             slug
             node_locale
             locale
+            updatedAt
         }
       }
     }
@@ -34,8 +35,8 @@ const DEFAULTQUERY = `{
 }`;
 const DEFAULTMAPPING = {
     allSitePage: {
-        sitemap: `pages`,
-    },
+        sitemap: `pages`
+    }
 };
 let siteURL;
 
@@ -106,14 +107,37 @@ const getNodePath = (node, allSitePage) => {
                         filteredPages.push(allPages[page].node)
                     }
             }
+            // console.log('page v node')
+            // console.log('page', allPages[page])
+            // console.log('node', node)
         }
+        // console.log(typeof filteredPages)
+        // filteredPages.map(page => console.log('page', page))
+        // if(filteredPages.length > 0){
+        //     console.log('filteredPages', filteredPages)
+        // }
+        // console.log('filteredPages', filteredPages)
+        // return filteredPages.filter((edge) => {
+        //     edge.node.context.slug == node.context.slug
+        // })
+        // console.log(`returning filteredpages for ${node.context.slug}`, filteredPages)
         return filteredPages
         
     }
+    const priorities = {
+        "blog":0.8,
+        "press":0.9,
+        "customers":0.9,
+        "partners":0.9
+      }
     for (let page of allSitePage.edges) {
         if (page?.node?.url && page.node.url.replace(/\/$/, ``).match(slugRegex)) {
+            let nodePriority = (page.node.url.split('/')[3] === 'press' || page.node.url.split('/')[3] === 'blog') ? page.node.url.split('/')[3] : page.node.url.split('/')[2]
             node.path = page.node.url;
             node.context = page.node.context
+            node.changefreq = 'weekly'
+            node.priority = priorities[nodePriority] || 1
+            node.updated_at = page.node.context.updatedAt || null
             if((node.context.slug !== null) && (node.context.locale || node.context.node_locale)){
                 node.alts = linkedLangs(node, allSitePage)
             }
