@@ -89,7 +89,7 @@ export default class BaseSiteMapGenerator {
         // console.log('datum', datum)
         // datum is the node
         // datum.alts ? datum.alts.map(alt => {xhtmlLink: alt}) : null
-        console.log(datum)
+        // console.log(datum)
         node = {
             url: [
                 { loc: url },

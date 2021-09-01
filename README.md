@@ -25,7 +25,7 @@ Same as gatsby-plugin-advanced-sitemap but with the ability to hide the attribut
 
 plugins: [
     {
-        resolve: `gatsby-plugin-contentful-advanced-sitemap`,
+        resolve: `gatsby-plugin-advanced-sitemap-modest`,
         options: {
             hideAttribution: true
         }

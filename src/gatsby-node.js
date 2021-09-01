@@ -12,26 +12,48 @@ const PUBLICPATH = `./public`;
 const RESOURCESFILE = `/sitemap-:resource.xml`;
 const XSLFILE = path.resolve(__dirname, `./static/sitemap.xsl`);
 const DEFAULTQUERY = `{
-  allSitePage {
-    edges {
-      node {
-        id
-        slug: path
-        url: path
-        context {
+    allContentfulPost(filter: {childContentfulPostBodyTextNode: {body: {nin: [null,""]}}},  sort: {order: DESC, fields: publishedAt}) {
+        edges {
+            node {
+            id
             slug
             node_locale
-            locale
             updatedAt
+            }
         }
-      }
     }
-  }
-  site {
-    siteMetadata {
-      siteUrl
+    allContentfulPressRelease(filter: {childContentfulPressReleaseBodyTextNode: {body: {nin: [null,""]}}}, sort: {order: DESC, fields: releasedAt}) {
+        edges {
+          node {
+            id
+            slug
+            node_locale
+            updatedAt
+          }
+        }
     }
-  }
+    allSitePage(
+        filter: {componentChunkName: {nin: ["component---src-templates-post-post-jsx", "component---src-templates-press-release-js"]}}
+      ) {
+        edges {
+            node {
+            id
+            slug: path
+            url: path
+            context {
+                slug
+                node_locale
+                locale
+                updatedAt
+            }
+            }
+        }
+    }
+    site {
+        siteMetadata {
+            siteUrl
+        }
+    }
 }`;
 const DEFAULTMAPPING = {
     allSitePage: {
@@ -92,12 +114,9 @@ const getNodePath = (node, allSitePage) => {
     const slugRegex = new RegExp(`${node.path.replace(/\/$/, ``)}$`, `gi`);
     // console.log('node passed to getNodePath', node)
     const linkedLangs = (node, allSitePage) => {
-        // console.log('linkdLangs node', node)
         let filteredPages = []
         let allPages = allSitePage.edges
-            // filteredPages = allSitePage.edges.filter((edge) => {
-            //     ((node.context?.slug !== null) && (node.context?.slug === edge.node.context?.slug)) && ((node.context?.node_locale !== edge.node.context?.node_locale) || (node.context?.locale !== edge.node.context?.locale));
-            // })
+        
         for(let page in allPages){
             if(allPages[page]?.node?.context?.slug && (allPages[page].node.context.slug == node.context.slug)) {
                 if(
@@ -107,20 +126,8 @@ const getNodePath = (node, allSitePage) => {
                         filteredPages.push(allPages[page].node)
                     }
             }
-            // console.log('page v node')
-            // console.log('page', allPages[page])
-            // console.log('node', node)
         }
-        // console.log(typeof filteredPages)
-        // filteredPages.map(page => console.log('page', page))
-        // if(filteredPages.length > 0){
-        //     console.log('filteredPages', filteredPages)
-        // }
-        // console.log('filteredPages', filteredPages)
-        // return filteredPages.filter((edge) => {
-        //     edge.node.context.slug == node.context.slug
-        // })
-        // console.log(`returning filteredpages for ${node.context.slug}`, filteredPages)
+        
         return filteredPages
         
     }
@@ -130,6 +137,7 @@ const getNodePath = (node, allSitePage) => {
         "customers":0.9,
         "partners":0.9
       }
+
     for (let page of allSitePage.edges) {
         if (page?.node?.url && page.node.url.replace(/\/$/, ``).match(slugRegex)) {
             let nodePriority = (page.node.url.split('/')[3] === 'press' || page.node.url.split('/')[3] === 'blog') ? page.node.url.split('/')[3] : page.node.url.split('/')[2]
@@ -144,7 +152,7 @@ const getNodePath = (node, allSitePage) => {
             break;
         }
     }
-    // console.log('post node', node)
+
     return node;
 };
 
@@ -183,7 +191,7 @@ const addPageNodes = (parsedNodesArray, allSiteNodes, siteUrl) => {
 
 const serializeSources = ({mapping, additionalSitemaps = []}) => {
     let sitemaps = [];
-
+    console.log('mapping', mapping)
     for (let resourceType in mapping) {
         sitemaps.push(mapping[resourceType]);
     }
@@ -276,6 +284,7 @@ const serialize = ({...sources} = {}, {site, allSitePage}, {mapping, addUncaught
             const currentSource = sources[type] ? sources[type] : [];
 
             if (currentSource) {
+                console.log('currentSource', currentSource)
                 sourceObject[mapping[type].sitemap] = sourceObject[mapping[type].sitemap] || [];
                 currentSource.edges.map(({node}) => {
                     // console.log('edge node', node)
@@ -299,7 +308,7 @@ const serialize = ({...sources} = {}, {site, allSitePage}, {mapping, addUncaught
                     if (typeof mapping[type].prefix === `string` && mapping[type].prefix !== ``){
                         node.path = mapping[type].prefix + node.path;
                     }
-
+                    // console.log('node before getNodePath', node)
                     // get the real path for the node, which is generated by Gatsby
                     node = getNodePath(node, allSitePage);
                     // console.log('post getNodePath', node)

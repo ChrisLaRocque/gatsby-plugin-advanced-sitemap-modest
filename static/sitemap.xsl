@@ -92,10 +92,12 @@
                         <table id="sitemap" cellpadding="3">
                             <thead>
                                 <tr>
-                                    <th width="40%">URL (<xsl:value-of select="count(sitemap:urlset/sitemap:url)"/> total)</th>
+                                    <th width="10%">URL (<xsl:value-of select="count(sitemap:urlset/sitemap:url)"/> total)</th>
                                     <th width="7%">Images</th>
                                     <th title="Last Modification Time" width="10%">Last Modified</th>
-                                    <th title="Alternate Languages" width="43%">Alternate languages</th>
+                                    <th title="Priority" width="5%">Priority</th>
+                                    <th title="ChangeFreq" width="5%">ChangeFreq</th>
+                                    <th title="Alternate Languages" width="40%">Alternate languages</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -117,10 +119,15 @@
                                         <td>
                                             <xsl:value-of select="concat(substring(sitemap:lastmod,0,11),concat(' ', substring(sitemap:lastmod,12,5)))"/>
                                         </td>
-                                       
+                                        <td>
+                                            <xsl:value-of select="sitemap:priority"/>
+                                        </td>
+                                        <td>
+                                            <xsl:value-of select="sitemap:changefreq"/>
+                                        </td>
                                         <td>
                                             <xsl:if test="count(./*[@rel='alternate']) &gt; 0">
-                                                <table width="75%">
+                                                <table width="40%">
                                                     <thead>
                                                         <tr>
                                                             <th width="90%">Alternate language urls</th>
