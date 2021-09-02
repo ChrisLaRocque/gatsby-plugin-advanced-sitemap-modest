@@ -141,7 +141,7 @@
                                                                 <xsl:value-of select="@href"/>
                                                             </xsl:variable>
                                                             <td>
-                                                                <a href="${altUrl}">
+                                                                <a href="{$altUrl}">
                                                                     <xsl:value-of select="@href"/>
                                                                 </a>
                                                             </td>
