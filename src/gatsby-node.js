@@ -191,7 +191,7 @@ const addPageNodes = (parsedNodesArray, allSiteNodes, siteUrl) => {
 
 const serializeSources = ({mapping, additionalSitemaps = []}) => {
     let sitemaps = [];
-    console.log('mapping', mapping)
+    // console.log('mapping', mapping)
     for (let resourceType in mapping) {
         sitemaps.push(mapping[resourceType]);
     }
@@ -284,7 +284,7 @@ const serialize = ({...sources} = {}, {site, allSitePage}, {mapping, addUncaught
             const currentSource = sources[type] ? sources[type] : [];
 
             if (currentSource) {
-                console.log('currentSource', currentSource)
+                // console.log('currentSource', currentSource)
                 sourceObject[mapping[type].sitemap] = sourceObject[mapping[type].sitemap] || [];
                 currentSource.edges.map(({node}) => {
                     // console.log('edge node', node)
