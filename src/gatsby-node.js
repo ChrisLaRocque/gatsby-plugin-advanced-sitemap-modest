@@ -40,7 +40,7 @@ const DEFAULTQUERY = `{
             id
             slug: path
             url: path
-            context {
+            pageContext {
                 slug
                 node_locale
                 locale
@@ -118,10 +118,10 @@ const getNodePath = (node, allSitePage) => {
         let allPages = allSitePage.edges
         
         for(let page in allPages){
-            if(allPages[page]?.node?.context?.slug && (allPages[page].node.context.slug == node.context.slug)) {
+            if(allPages[page]?.node?.pageContext?.slug && (allPages[page].node.pageContext.slug == node.pageContext.slug)) {
                 if(
-                    (node.context.locale && (allPages[page].node.context.locale !== node.context.locale)) ||
-                    (node.context.node_locale && (allPages[page].node.context.node_locale !== node.context.node_locale))
+                    (node.pageContext.locale && (allPages[page].node.pageContext.locale !== node.pageContext.locale)) ||
+                    (node.pageContext.node_locale && (allPages[page].node.pageContext.node_locale !== node.pageContext.node_locale))
                     ){
                         filteredPages.push(allPages[page].node)
                     }
@@ -142,11 +142,11 @@ const getNodePath = (node, allSitePage) => {
         if (page?.node?.url && page.node.url.replace(/\/$/, ``).match(slugRegex)) {
             let nodePriority = (page.node.url.split('/')[3] === 'press' || page.node.url.split('/')[3] === 'blog') ? page.node.url.split('/')[3] : page.node.url.split('/')[2]
             node.path = page.node.url;
-            node.context = page.node.context
+            node.pageContext = page.node.pageContext
             node.changefreq = 'weekly'
             node.priority = priorities[nodePriority] || 1
-            node.updated_at = page.node.context.updatedAt || null
-            if((node.context.slug !== null) && (node.context.locale || node.context.node_locale)){
+            node.updated_at = page.node.pageContext.updatedAt || null
+            if((node.pageContext.slug !== null) && (node.pageContext.locale || node.pageContext.node_locale)){
                 node.alts = linkedLangs(node, allSitePage)
             }
             break;

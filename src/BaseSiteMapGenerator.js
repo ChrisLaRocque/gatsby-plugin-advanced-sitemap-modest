@@ -101,7 +101,7 @@ export default class BaseSiteMapGenerator {
         }
         if (datum.alts){
             datum.alts.forEach((alt) => {
-                node.url.push({ 'xhtml:link': [{ _attr: { rel: `alternate`, hreflang: (alt.context.locale || alt.context.node_locale).substr(0,2), href: `https://brightcove.com${alt.url}` } }] })
+                node.url.push({ 'xhtml:link': [{ _attr: { rel: `alternate`, hreflang: (alt.pageContext.locale || alt.pageContext.node_locale).substr(0,2), href: `https://brightcove.com${alt.url}` } }] })
             })
         }
         imgNode = this.createImageNodeFromDatum(datum)
